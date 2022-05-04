@@ -28,7 +28,13 @@ typedef struct __attribute__ ((packed)) {
  
 // tell compiler our int32 function is external
 extern void int32(unsigned char intnum, regs16_t *regs);
- 
+
+/* example for 320x200 VGA */
+void putpixel(int pos_x, int pos_y, unsigned char VGA_COLOR)
+{
+    unsigned char* location = (unsigned char*)0xA0000 + 320 * pos_y + pos_x;
+    *location = VGA_COLOR;
+}
 // int32 test
 void int32_test()
 {
@@ -39,8 +45,11 @@ void int32_test()
     regs.ax = 0x0013;
     int32(0x10, &regs);
      
-    // full screen with blue color (1)
-    memset((char *)0xA0000, 1, (320*200));
+    // draw background
+    memset((char *)0xA0000, VGA_COLOR_WHITE, (320*200));
+
+	for (int i = 0; i < 20; ++i)
+		putpixel(10, 10 + i, VGA_COLOR_LIGHT_RED);
      
     // draw horizontal line from 100,80 to 100,240 in multiple colors
     for(y = 0; y < 200; y++)
@@ -59,6 +68,8 @@ void kernel_main(void) {
 	int32_test();
 	terminal_initialize();
 	terminal_setcolor(VGA_COLOR_GREEN);
-	printf("I AM THE GREATEST");
+	printf("Some message\nsome other message below this\n");
+	terminal_setcolor(VGA_COLOR_CYAN);
+	printf("Some other message down here");
 	
 }
