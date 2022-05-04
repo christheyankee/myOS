@@ -9,7 +9,7 @@
 
 static const size_t VGA_WIDTH = 80;
 static const size_t VGA_HEIGHT = 25;
-static uint16_t* const VGA_MEMORY = (uint16_t*) 0xB8000;
+static uint16_t* const VGA_MEMORY = (uint16_t*) 0xB8000; //This is essentially text mode, stores values of the form 'char', 'color'
 
 static size_t terminal_row;
 static size_t terminal_column;
@@ -40,6 +40,12 @@ void terminal_putentryat(unsigned char c, uint8_t color, size_t x, size_t y) {
 
 void terminal_putchar(char c) {
 	unsigned char uc = c;
+	if (c == '\n')
+	{
+		++terminal_row;
+		terminal_column = 0;
+		return;
+	}
 	terminal_putentryat(uc, terminal_color, terminal_column, terminal_row);
 	if (++terminal_column == VGA_WIDTH) {
 		terminal_column = 0;
