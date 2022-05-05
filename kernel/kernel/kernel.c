@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include <string.h>
 #include <kernel/tty.h>
+#include <kernel/gop.h>
 
 enum vga_color {
 	VGA_COLOR_BLACK = 0,
@@ -65,6 +67,11 @@ void int32_test()
 }
 
 void kernel_main(void) {
+	int ret = initialize_gop();
+	if (ret == 1)
+	{
+		printf("Uh oh\n");
+	}
 	int32_test();
 	terminal_initialize();
 	terminal_setcolor(VGA_COLOR_GREEN);

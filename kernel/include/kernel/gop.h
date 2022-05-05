@@ -4,5 +4,5 @@
 #include <efi.h>
 #include <efilib.h>
 
-void initialize_gop();
+int initialize_gop();
 #endif
