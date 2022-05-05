@@ -2,3 +2,4 @@
 *.vscode*
 isodir
 sysroot
+gnu-efi*

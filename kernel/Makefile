@@ -19,6 +19,7 @@ LDFLAGS:=$(LDFLAGS)
 LIBS:=$(LIBS) -nostdlib -lk -lgcc
 
 ARCHDIR=arch/$(HOSTARCH)
+ARCH            = $(shell uname -m | sed s,i[3456789]86,ia32,)
 
 include $(ARCHDIR)/make.config
 
